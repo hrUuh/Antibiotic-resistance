@@ -1,0 +1,35 @@
+1. Скачать данные
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/   not resistant
+https://doi.org/10.6084/m9.figshare.10006541.v3          resistant
+2. Просмотреть данные глазами
+head -20 amp_res_1.fastq       формат fastq: каждый рид занимает 4 строчки
+                                             1) начинается с @ и идкетификатора
+                                            2) сама последовательность
+                                             3) нить
+                                             4) качество в формате Phred33 (P = 10 ** -(Q/10), Q = -10 lg(P))
+###########################
+@SRR1363257.37 GWZHISEQ01:153:C1W31ACXX:5:1101:14027:2198 length=101
+GGTTGCAGATTCGCAGTGTCGCTGTTCCAGCGCATCACATCTTTGATGTTCACGCCGTGGCGTTTAGCAATGCTTGAAAGCGAATCGCCTTTGCCCACACG
++
+@?:=:;DBFADH;CAECEE@@E:FFHGAE4?C?DE<BFGEC>?>FHE4BFFIIFHIBABEECA83;>>@>@CCCDC9@@CC08<@?@BB@9:CC#######
+@SRR1363257.46 GWZHISEQ01:153:C1W31ACXX:5:1101:19721:2155 length=101
+GTATGAGGTTTTGCTGCATTCTCTGNGCGAATATTAACTCCNTNNNNNTTATAGTTCAAAGCAAGTACCTGTCTCTTATACACATCTCCGAGCCCACGAGC
++
+@@<?=D?D==?<AFGDF+AIHEACH#22<:?E8??:9??GG#0#####000;CF=C)4.==CA@@@)=7?C7?E37;3@>;;(.;>AB#############
+@SRR1363257.77 GWZHISEQ01:153:C1W31ACXX:5:1101:5069:2307 length=101
+GCTTCTCTTAACTGAGGTCACCATCATGCCGTTAAGTCCCTACCTCTCTTTTGCCGGTAACTGTTCCGCCGCGATTGCCTTTTATCTGTCTCTTATACACC
++
+??<DBD;4C2=<BB>:AC;<CF<CE@FE9@E1C@891CD*9:?:3D@DD4?D<DD:0;@A=AEIDDA##################################
+#######################################
+3. Посчитать количество ридов
+wc -l amp_res_1.fastq   - число строк
+Число ридов = число строк / 4
+4. Запускаем FastQC
+fastqc -o . amp_res_1.fastq amp_res_2.fastq  
+Оцениваем основные статистики и отчет
+file://wsl.localhost/Ubuntu/root/antibiotic/raw_data/amp_res_1_fastqc.html
+file://wsl.localhost/Ubuntu/root/antibiotic/raw_data/amp_res_2_fastqc.html
+Per base sequence quality в обоих наборах снижается ниже 20 после 72го нукдеотида
+Per tile sequence quality низкое в прямых и обратных ридах
+Per base sequence content в начале присутствуют повторяющиеся последовательности
+Per sequence GC content
