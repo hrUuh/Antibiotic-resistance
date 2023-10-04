@@ -1,0 +1,15 @@
+ java -jar /usr/share/java/trimmomatic-0.39.jar
+Usage:
+       PE [-version] [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLogFile>] [-summary <statsSummaryFile>] [-quiet] [-validatePairs] [-basein <inputBase> | <inputFile1> <inputFile2>] [-baseout <outputBase> | <outputFile1P> <outputFile1U> <outputFile2P> <outputFile2U>] <trimmer1>...
+   or:
+       SE [-version] [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLogFile>] [-summary <statsSummaryFile>] [-quiet] <inputFile> <outputFile> <trimmer1>...
+   or:
+       -version
+root@LAPTOP-FNPP2789:~/antibiotic# java -jar /usr/share/java/trimmomatic-0.39.jar PE -phred33 ./raw_data/amp_res_1.fastq ./raw_data/amp_res_2.fastq pairedPE_1.fastq singlePE_1.fastq pairedPE_2.fastq singlePE_2.fastq CROP:72 SLIDINGWINDOW:10:20 MINLEN:20
+TrimmomaticPE: Started with arguments:
+ -phred33 ./raw_data/amp_res_1.fastq ./raw_data/amp_res_2.fastq pairedPE_1.fastq singlePE_1.fastq pairedPE_2.fastq singlePE_2.fastq CROP:72 SLIDINGWINDOW:10:20 MINLEN:20
+Input Read Pairs: 455876 Both Surviving: 445888 (97.81%) Forward Only Surviving: 9561 (2.10%) Reverse Only Surviving: 283 (0.06%) Dropped: 144 (0.03%)
+TrimmomaticPE: Completed successfully
+ fastqc -o ./trimmedFastQC pairedPE_1.fastq pairedPE_2.fastq
+file://wsl.localhost/Ubuntu/root/antibiotic/trimmed_data/trimmedFastQC/pairedPE_2_fastqc.html#M1
+file://wsl.localhost/Ubuntu/root/antibiotic/trimmed_data/trimmedFastQC/pairedPE_1_fastqc.html#M4
