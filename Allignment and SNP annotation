@@ -1,0 +1,64 @@
+bwa index ./raw_data/E.coli_reads_non_resistance.fna
+ls
+#############################3
+root@LAPTOP-FNPP2789:~/antibiotic/raw_data# ls
+E.coli_annotation_non_resistance.gff  GCF_000005845.2_ASM584v2_genomic.fna.gz:Zone.Identifier
+E.coli_reads_non_resistance.fna       GCF_000005845.2_ASM584v2_genomic.gff.gz:Zone.Identifier
+E.coli_reads_non_resistance.fna.amb   amp_res_1.fastq
+E.coli_reads_non_resistance.fna.ann   amp_res_1.fastq.gz:Zone.Identifier
+E.coli_reads_non_resistance.fna.bwt   amp_res_2.fastq
+E.coli_reads_non_resistance.fna.pac   amp_res_2.fastq.gz:Zone.Identifier
+E.coli_reads_non_resistance.fna.sa    fastQC
+##########################################
+ bwa mem E.coli_reads_non_resistance.fna ../trimmed_data/pairedPE_1.fastq ../trimmed_data/pairedPE_2.fastq > alignment.sam
+ samtools view -S -b alignment.sam > alignment.bam
+samtools flagstat alignment.bam
+###################################
+891939 + 0 in total (QC-passed reads + QC-failed reads)
+891776 + 0 primary
+0 + 0 secondary
+163 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+890848 + 0 mapped (99.88% : N/A)
+890685 + 0 primary mapped (99.88% : N/A)
+891776 + 0 paired in sequencing
+445888 + 0 read1
+445888 + 0 read2
+887748 + 0 properly paired (99.55% : N/A)
+889736 + 0 with itself and mate mapped
+949 + 0 singletons (0.11% : N/A)
+0 + 0 with mate mapped to a different chr
+0 + 0 with mate mapped to a different chr (mapQ>=5)
+##############################################
+samtools sort alignment.bam -o  alignment_sorted.bam
+samtools index alignment_sorted.bam
+samtools mpileup -f E.coli_reads_non_resistance.fna alignment_sorted.bam > my.mpileup
+java -jar /usr/share/java/varscan-2.4.3.jar mpileup2snp -h
+#################################
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:   8
+Min reads2:     2
+Min var freq:   0.2
+Min avg qual:   15
+P-value thresh: 0.01
+USAGE: varscan mpileup2cns [pileup file] OPTIONS
+        mpileup file - The SAMtools mpileup file
+
+        OPTIONS:
+        --min-coverage  Minimum read depth at a position to make a call [8]
+        --min-reads2    Minimum supporting reads at a position to call variants [2]
+        --min-avg-qual  Minimum base quality at a position to count a read [15]
+        --min-var-freq  Minimum variant allele frequency threshold [0.01]
+        --min-freq-for-hom      Minimum frequency to call homozygote [0.75]
+        --p-value       Default p-value threshold for calling variants [99e-02]
+        --strand-filter Ignore variants with >90% support on one strand [1]
+        --output-vcf    If set to 1, outputs in VCF format
+        --vcf-sample-list       For VCF output, a list of sample names in order, one per line
+        --variants      Report only variant (SNP/indel) positions [0]
+#################################################
+java -jar /usr/share/java/varscan-2.4.3.jar mpileup2snp my.mpileup --min-var-freq 0.20 --variants --output-vcf1 > VarScan_results.vcf
+snpEff build -genbank -v k12
+snpEff ann k12 ~/antibiotic/raw_data/VarScan_results.vcf > VarScan_results_annotated.vcf
+
