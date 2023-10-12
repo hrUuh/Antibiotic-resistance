@@ -69,4 +69,5 @@ unzip snpEff_latest_core.zip
 Папку data/k12 сделать в папке snpEff, snpEff.config отдельный не создавать, а все прописать в имеющийся
 root@LAPTOP-FNPP2789:~# cd ./snpEff
 root@LAPTOP-FNPP2789:~/snpEff# java -jar snpEff.jar build -genbank -v k12  
+ java -jar ../snpEff/snpEff.jar ann k12 ./raw_data/VarScan_results.vcf > VarScan_results_annotated.vcf
 
