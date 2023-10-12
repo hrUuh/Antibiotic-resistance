@@ -62,3 +62,11 @@ java -jar /usr/share/java/varscan-2.4.3.jar mpileup2snp my.mpileup --min-var-fre
 snpEff build -genbank -v k12
 snpEff ann k12 ~/antibiotic/raw_data/VarScan_results.vcf > VarScan_results_annotated.vcf
 
+ Download snpEff using wget
+wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
+# Install
+unzip snpEff_latest_core.zip
+Папку data/k12 сделать в папке snpEff, snpEff.config отдельный не создавать, а все прописать в имеющийся
+root@LAPTOP-FNPP2789:~# cd ./snpEff
+root@LAPTOP-FNPP2789:~/snpEff# java -jar snpEff.jar build -genbank -v k12  
+
